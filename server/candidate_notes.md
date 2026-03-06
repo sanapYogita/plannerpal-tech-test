@@ -32,3 +32,6 @@ Benefit: protects API from abuse or common attacks.
 Currently, all cars are returned at once.
 Suggestion: add query params like ?page=1&limit=10.
 Benefit: prevents sending huge payloads and improves performance.
+
+# I can see some vulnerabilities 
+When I used command npm audit I can see Vulnerabiltities which mush be removed.
