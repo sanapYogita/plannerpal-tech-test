@@ -1,6 +1,7 @@
-import express from 'express';
-import cors from 'cors';
-import { DB } from './db';
+import express from "express";
+import cors from "cors";
+import carRoutes from "./routes/car.routes";
+import { errorHandler } from "./middleware/error.middleware";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -8,25 +9,13 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok' });
+app.get("/api/health", (_req, res) => {
+  res.json({ status: "ok" });
 });
 
-app.get('/api/cars', (_req, res) => {
-  // TODO: Implement get all cars
-  res.json([]);
-});
+app.use("/api/cars", carRoutes);
 
-app.get('/api/cars/:id', async (req, res) => {
-  const car = await DB.getCarById(req.params.id);
-
-  if (!car) {
-    res.status(404).json({ error: 'Car not found' });
-    return;
-  }
-
-  res.json({ id: req.params.id, ...car });
-});
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

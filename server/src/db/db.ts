@@ -1,5 +1,5 @@
  /** DO NOT MODIFY (except where instructed) */
-import { getAllCars } from "./getCars";
+import { getAllCars } from "../getCars";
 
 const cars: any = {
   "abc-def-001": {
