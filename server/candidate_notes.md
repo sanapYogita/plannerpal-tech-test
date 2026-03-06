@@ -35,3 +35,24 @@ Benefit: prevents sending huge payloads and improves performance.
 
 # I can see some vulnerabilities 
 When I used command npm audit I can see Vulnerabiltities which mush be removed.
+
+# any type in db.ts
+
+export interface Car {
+  make: string;
+  model: string;
+  age: number;
+  mileage: number;
+  colour: string;
+  description: string;
+  cost: number;
+  fuelType: "petrol" | "diesel";
+  damage: string | null;
+}
+
+in db.ts for const cars: any = I would prefer  "Record<string, Car>"
+ Incode - getCarById: async (id: string): Promise<any> 
+suggestion - another getCarById: async (id: string): Promise<Car | null>
+
+suggestion -getAllCars: async (search?: string): Promise<Car[]>
+
