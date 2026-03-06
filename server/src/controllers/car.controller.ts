@@ -25,6 +25,8 @@ export const getCar = async (
   next: NextFunction,
 ) => {
   try {
+    // In production, I would validate search and id inputs using a library like Zod or Joi
+    // This ensures requests are always safe and properly formatted
     const car = await carService.getCarById(req.params.id);
 
     if (!car) {
