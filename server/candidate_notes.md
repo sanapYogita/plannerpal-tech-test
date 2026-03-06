@@ -56,3 +56,56 @@ suggestion - another getCarById: async (id: string): Promise<Car | null>
 
 suggestion -getAllCars: async (search?: string): Promise<Car[]>
 
+# Use Authentication
+Implement JWT-based authentication for your API.
+Users log in and receive a JWT token.
+Every request to a protected route must include the token in the Authorization header (Bearer <token>).
+Middleware verifies the token and attaches the user info (like id and role) to req.user.
+
+# Use Authorization
+Check user roles or permissions before allowing access to certain routes.
+For example, only users with the admin role can add, update, or delete cars.
+Middleware reads req.user.role and denies access if the role is insufficient.
+
+# Protecting Routes
+
+Public routes: e.g., viewing cars (getCars, getCar) could require authentication but allow all users.
+Restricted routes: e.g., adding, updating, deleting cars should require both authentication and admin authorization. However these api not added in test it is just suggestion
+
+# Security Best Practices
+
+Use strong, secret keys for JWT (JWT_SECRET) and store them in environment variables.
+Set token expiration times to limit risk if a token leaks.
+Hash user passwords (bcrypt) if you implement login, however login is not included in thi test (suggestion).
+
+
+# Error messages
+1. Car Not Found
+When: The requested car ID does not exist in the database.
+Controller: getCar
+Error: ApiError thrown in controller
+Status Code: 404 Not Found
+Message: "Car not found"
+2. Database / Service Failure
+When: carService.getAllCars or carService.getCarById throws an error (e.g., DB connection failed).
+Controller: getCars or getCar
+Status Code: 500 Internal Server Error
+Message: "Internal Server Error" (or more detailed like "Failed to fetch cars" if needed)
+3. Invalid ID Format
+When: The req.params.id is invalid (e.g., not a string or wrong format)
+Controller: getCar
+Status Code: 400 Bad Request
+Message: "Invalid car ID"
+Optional validation can be added using a library like Zod or Joi.
+4. Invalid Query Parameter
+When: The search query parameter is invalid (e.g., not a string or too long)
+Controller: getCars
+Status Code: 400 Bad Request
+Message: "Invalid search parameter"
+5. Unauthorized / Forbidden Access
+When: You protect your routes with authentication/authorization middleware (future enhancement).
+Controller: Both getCars and getCar
+Status Code:
+401 Unauthorized → if no token or invalid token
+403 Forbidden → if user is authenticated but does not have permission
+Message: "Unauthorized" or "Forbidden"
